@@ -6,6 +6,7 @@ variable "fly_org_name" {
 
 variable "fly_api_token" {
   type = string
+  sensitive = true
 }
 
 # Fly Database

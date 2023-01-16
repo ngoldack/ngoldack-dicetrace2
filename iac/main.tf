@@ -44,9 +44,6 @@ resource "fly_machine" "dicetrace_database_machine" {
   ]
   cpus = 1
   memorymb = 256
-  
-  cmd = [ "mongod", "--ipv6" ]
-
   mounts = [
     {
       volume = fly_volume.dicetrace_database_volume[each.value].name
