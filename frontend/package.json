@@ -10,7 +10,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:e2e": "playwright test",
 		"test:unit": "vitest",
-		"test:unit:once": "vitest --run",
+		"test:unit:once": "vitest --coverage --run",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"update:dep": "pnpm update --latest"
@@ -21,6 +21,7 @@
 		"@sveltejs/kit": "^1.2.6",
 		"@typescript-eslint/eslint-plugin": "^5.49.0",
 		"@typescript-eslint/parser": "^5.49.0",
+		"@vitest/coverage-c8": "^0.28.1",
 		"autoprefixer": "^10.4.13",
 		"daisyui": "^2.47.0",
 		"eslint": "^8.32.0",
