@@ -44,7 +44,7 @@ jobs:
         with:
           version: latest
           run_install: false
-      - run: pnpm ci
+      - run: pnpm i
       - run: pnpm run build
       - run: pnpm test:e2e
       - run: pnpm test:unit:once
