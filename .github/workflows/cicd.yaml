@@ -1,6 +1,22 @@
 name: cicd
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - release/**
+      - hotfix/**
+      - develop
+      - support/**
+      - bugfix/**
+      - feature/**
+
+  pull_request:
+    branches:
+      - master
+      - develop
+      - hotfix/**
+      - release/**
 
 jobs:
   build-api:
