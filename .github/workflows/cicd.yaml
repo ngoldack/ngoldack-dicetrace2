@@ -45,6 +45,7 @@ jobs:
           version: latest
           run_install: false
       - run: pnpm i
+      - run: pnpm npx playwright install --with-deps
       - run: pnpm run build
       - run: pnpm test:e2e
       - run: pnpm test:unit:once
