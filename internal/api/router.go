@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"github.com/dn365/gin-zerolog"
 	"github.com/gin-gonic/gin"
+	v1 "github.com/ngoldack/dicetrace/internal/api/v1"
 	"github.com/ngoldack/dicetrace/internal/app"
+	"github.com/ngoldack/dicetrace/internal/controller"
 	"net/http"
 )
 
@@ -17,7 +19,7 @@ type API struct {
 // Force interface implementation
 var _ app.Controllable = &API{}
 
-func NewAPI(port string) *API {
+func NewAPI(port string, userController *controller.UserController) *API {
 	router := &API{}
 	router.engine = gin.New()
 	router.engine.Use(gin.Recovery())
@@ -28,15 +30,21 @@ func NewAPI(port string) *API {
 		Handler: router.engine,
 	}
 
-	router.configureRoutes()
+	router.configureRoutes(userController)
 
 	return router
 }
 
-func (router *API) configureRoutes() {
+func (router *API) configureRoutes(userController *controller.UserController) {
 	router.engine.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "%s", "pong")
 	})
+
+	// V1
+	apiRoutes := router.engine.Group("/api/v1")
+	apiRoutes.GET("/user", v1.HandleGetUser(userController))
+	apiRoutes.POST("/user", v1.HandlePostUser(userController))
+	apiRoutes.GET("/user/:user_id", v1.HandleGetUserWithUserID(userController))
 }
 
 func (router *API) Start(_ context.Context) error {

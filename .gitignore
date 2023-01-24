@@ -58,3 +58,6 @@ terraform.rc
 go.work
 
 # Svelte
+
+# IDE
+.idea/

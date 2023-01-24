@@ -5,16 +5,17 @@ go 1.19
 require (
 	github.com/dn365/gin-zerolog v0.0.0-20171227063204-b43714b00db1
 	github.com/gin-gonic/gin v1.8.2
+	github.com/go-playground/validator/v10 v10.11.1
 	github.com/rs/zerolog v1.28.0
 	go.mongodb.org/mongo-driver v1.11.1
 	gopkg.in/errgo.v2 v2.1.0
+	schneider.vip/problem v1.8.0
 )
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

@@ -2,14 +2,16 @@ package app
 
 import (
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"os"
 )
 
 type Config struct {
-	DatabaseHost     string
-	DatabasePort     string
-	DatabaseUsername string
-	DatabasePassword string
+	DatabaseHost     string `validator:"required"`
+	DatabasePort     string `validator:"required,numeric"`
+	DatabaseUsername string `validator:"required"`
+	DatabasePassword string `validator:"required"`
+	DatabaseName     string `validator:"required"`
 }
 
 var localConfig *Config
@@ -21,6 +23,7 @@ func GetConfig() (*Config, error) {
 			DatabasePort:     os.Getenv("DATABASE_PORT"),
 			DatabaseUsername: os.Getenv("DATABASE_USERNAME"),
 			DatabasePassword: os.Getenv("DATABASE_PASSWORD"),
+			DatabaseName:     os.Getenv("DATABASE_NAME"),
 		}
 	}
 
@@ -28,8 +31,7 @@ func GetConfig() (*Config, error) {
 }
 
 func (c *Config) validate() error {
-	// TODO implement config validation
-	return nil
+	return validator.New().Struct(c)
 }
 
 func (c *Config) DatabaseURI() string {

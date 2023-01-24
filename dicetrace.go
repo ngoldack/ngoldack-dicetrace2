@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/ngoldack/dicetrace/internal/api"
 	"github.com/ngoldack/dicetrace/internal/app"
+	"github.com/ngoldack/dicetrace/internal/controller"
 	"github.com/ngoldack/dicetrace/internal/database"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/errgo.v2/errors"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+
 	log.Info().Msg("Starting dicetrace backend")
 	ctx := context.Background()
 
@@ -23,17 +25,20 @@ func main() {
 		log.Fatal().Err(err).Msg("Failed to get config")
 	}
 
-	// Database
-	db, err := database.NewDatabase(cfg.DatabaseURI())
+	// DatabaseClient
+	dbc, err := database.NewDBClient(cfg.DatabaseURI(), cfg.DatabaseName)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create database client")
 	}
-	if err = db.Start(ctx); err != nil {
+	if err = dbc.Start(ctx); err != nil {
 		log.Fatal().Err(err).Msg("Failed to connect to database")
 	}
 
+	// Controllers
+	userController := controller.CreateUserController(dbc.GetCollection("users"))
+
 	// REST api
-	router := api.NewAPI("8080")
+	router := api.NewAPI("8080", userController)
 	go func() {
 		if err = router.Start(ctx); err != nil {
 			if ok := errors.Is(http.ErrServerClosed); !ok(err) {
@@ -56,8 +61,8 @@ func main() {
 		log.Error().Err(err).Msg("Failed to stop api server")
 	}
 
-	// Database
-	if err = db.Stop(ctx); err != nil {
+	// DatabaseClient
+	if err = dbc.Stop(ctx); err != nil {
 		log.Error().Err(err).Msg("Failed to close database connection")
 	}
 }

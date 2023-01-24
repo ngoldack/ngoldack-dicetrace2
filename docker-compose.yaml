@@ -5,6 +5,8 @@ services:
     build:
       dockerfile: Dockerfile.database
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: dicetrace
       MONGO_INITDB_ROOT_PASSWORD: dicetrace
@@ -13,6 +15,8 @@ services:
     build:
       dockerfile: Dockerfile.backend
     restart: unless-stopped
+    ports:
+      - "8080:8080"
     environment:
       DATABASE_HOST: localhost
       DATABASE_PORT: 27017
@@ -24,6 +28,8 @@ services:
     build:
       dockerfile: Dockerfile.frontend
     restart: unless-stopped
+    ports:
+      - "3000:3000"
     environment:
       BACKEND_URL: http://localhost:8080
 
