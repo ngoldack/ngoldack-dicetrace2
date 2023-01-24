@@ -16,6 +16,6 @@ COPY --from=build /app/package.json /app/pnpm.yaml ./
 RUN pnpm install --no-optional --prod --ignore-scripts
 RUN pnpm audit --fix --prod --no-optional
 
-COPY --from=build /app/build/ ./
+COPY --from=build /app/.svelte-kit/output/ ./
 EXPOSE 3000
 CMD ["node", "./index.js"]

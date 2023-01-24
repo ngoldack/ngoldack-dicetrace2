@@ -12,7 +12,6 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		outDir: "build/"
 	}
 };
 
