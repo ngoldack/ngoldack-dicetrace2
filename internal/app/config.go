@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	DatabaseHost     string `validator:"required"`
+	DatabaseHost     string `validator:"required,hostname"`
 	DatabasePort     string `validator:"required,numeric"`
 	DatabaseUsername string `validator:"required"`
 	DatabasePassword string `validator:"required"`
@@ -36,4 +36,8 @@ func (c *Config) validate() error {
 
 func (c *Config) DatabaseURI() string {
 	return fmt.Sprintf("mongodb://%s:%s@%s:%s", c.DatabaseUsername, c.DatabasePassword, c.DatabaseHost, c.DatabasePort)
+}
+
+func (c *Config) Clear() {
+	c = nil
 }
