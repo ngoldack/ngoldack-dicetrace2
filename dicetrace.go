@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// DatabaseClient
-	dbc, err := database.NewDBClient(cfg.DatabaseURI(), cfg.DatabaseName)
+	dbc, err := database.NewDBClient(cfg.DatabaseURI, cfg.DatabaseName)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create database client")
 	}
