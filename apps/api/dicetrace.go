@@ -32,7 +32,12 @@ func main() {
 
 	// REST api
 	router := api.NewAPI("8080")
+
 	router.GetRouterGroupV1().POST("/user", users.RegisterUserHandler(userRepository))
+	router.GetRouterGroupV1().GET("/user/:user-uuid", users.GetUserWithUsernameHandler(userRepository))
+	router.GetRouterGroupV1().DELETE("/user/:user-uuid", users.DeleteUserWithUsernameHandler(userRepository))
+
+	router.GetRouterGroupV1().GET("/find/user", users.FindUserHandler(userRepository))
 
 	go func() {
 		if err = router.Start(ctx); err != nil {

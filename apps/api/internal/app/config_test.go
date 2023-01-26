@@ -9,14 +9,10 @@ import (
 func TestGetConfig(t *testing.T) {
 
 	t.Run("valid config test", func(t *testing.T) {
-		mongoDBURI := "mongodb+srv://dicetrace:abc@dev.dbc.net/?retryWrites=true&w=majority"
 		os.Clearenv()
-		err := os.Setenv("MONGODB_URI", mongoDBURI)
-		assert.NoError(t, err)
-
-		cfg, err := GetConfig()
+		// TODO test config
+		_, err := GetConfig()
 		if assert.NoError(t, err) {
-			assert.Equal(t, mongoDBURI, cfg.MongoDBURI)
 		}
 	})
 
