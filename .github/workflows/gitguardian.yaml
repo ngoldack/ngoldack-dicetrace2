@@ -1,4 +1,4 @@
-name: GitGuardian scan
+name: gitguardian
 
 on: [push, pull_request]
 
