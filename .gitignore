@@ -61,3 +61,5 @@ go.work
 
 # IDE
 .idea/
+
+.env

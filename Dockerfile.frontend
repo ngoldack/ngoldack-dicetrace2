@@ -2,10 +2,10 @@ FROM node:18-bullseye AS build
 
 WORKDIR /app
 
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
+COPY web/package.json frontend/pnpm-lock.yaml ./
 RUN pnpm i
 
-COPY frontend/ ./
+COPY web/ ./
 RUN pnpm run build
 
 FROM node:18-alpine AS run

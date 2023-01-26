@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/ngoldack/dicetrace/internal/api"
-	"github.com/ngoldack/dicetrace/internal/app"
-	"github.com/ngoldack/dicetrace/internal/controller"
-	"github.com/ngoldack/dicetrace/internal/database"
+	"github.com/ngoldack/dicetrace/apps/api/internal/api"
+	"github.com/ngoldack/dicetrace/apps/api/internal/app"
+	"github.com/ngoldack/dicetrace/apps/api/internal/database"
+	"github.com/ngoldack/dicetrace/apps/api/internal/users"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/errgo.v2/errors"
 	"net/http"
@@ -25,20 +25,15 @@ func main() {
 		log.Fatal().Err(err).Msg("Failed to get config")
 	}
 
-	// DatabaseClient
-	dbc, err := database.NewDBClient(cfg.DatabaseURI, cfg.DatabaseName)
-	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to create database client")
-	}
-	if err = dbc.Start(ctx); err != nil {
-		log.Fatal().Err(err).Msg("Failed to connect to database")
-	}
+	// Neo4J client
+	neo4jc, err := database.NewNeo4JClient(cfg.Neo4JURI, cfg.Neo4JUsername, cfg.Neo4JPassword)
 
-	// Controllers
-	userController := controller.CreateUserController(dbc.GetCollection("users"))
+	userRepository := &users.UserNeo4JRepository{Driver: neo4jc.Driver}
 
 	// REST api
-	router := api.NewAPI("8080", userController)
+	router := api.NewAPI("8080")
+	router.GetRouterGroupV1().POST("/user", users.RegisterUserHandler(userRepository))
+
 	go func() {
 		if err = router.Start(ctx); err != nil {
 			if ok := errors.Is(http.ErrServerClosed); !ok(err) {
@@ -53,16 +48,17 @@ func main() {
 
 	log.Info().Msg("Gracefully stopping dicetrace backend")
 
+	// Rest API
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-
-	// Rest API
 	if err = router.Stop(ctx); err != nil {
 		log.Error().Err(err).Msg("Failed to stop api server")
 	}
 
-	// DatabaseClient
-	if err = dbc.Stop(ctx); err != nil {
-		log.Error().Err(err).Msg("Failed to close database connection")
+	// Neo4jJ client
+	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err = neo4jc.Stop(ctx); err != nil {
+		log.Error().Err(err).Msg("Failed to stop api server")
 	}
 }
