@@ -41,7 +41,7 @@ jobs:
 
 
 
-  build-frontend:
+  build-web:
     runs-on: ubuntu-latest
 
     strategy:

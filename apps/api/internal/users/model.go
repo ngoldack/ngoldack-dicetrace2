@@ -1,7 +1,10 @@
 package users
 
+import "github.com/google/uuid"
+
 type User struct {
-	Username string `json:"username,omitempty" bson:"username,omitempty"`
-	Email    string `json:"email,omitempty" bson:"email,omitempty"`
-	Name     string `json:"name,omitempty" bson:"name,omitempty"`
+	UUID     uuid.UUID `json:"uuid,omitempty" validate:"required"`
+	Username string    `json:"username,omitempty" validate:"required"`
+	Email    string    `json:"email,omitempty" validate:"required,email"`
+	Name     string    `json:"name,omitempty" validate:"required"`
 }
