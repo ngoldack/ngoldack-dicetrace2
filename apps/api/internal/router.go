@@ -1,11 +1,10 @@
-package api
+package internal
 
 import (
 	"context"
 	"fmt"
 	"github.com/dn365/gin-zerolog"
 	"github.com/gin-gonic/gin"
-	"github.com/ngoldack/dicetrace/apps/api/internal/app"
 	"net/http"
 )
 
@@ -15,26 +14,28 @@ type API struct {
 }
 
 // Force interface implementation
-var _ app.Controllable = &API{}
+var _ Controllable = &API{}
 
-func NewAPI(port string) *API {
+func NewAPI(cfg *Config) *API {
 	router := &API{}
 	router.engine = gin.New()
 	router.engine.Use(gin.Recovery())
 	router.engine.Use(ginzerolog.Logger("gin"))
 
 	router.srv = &http.Server{
-		Addr:    fmt.Sprintf(":%s", port),
+		Addr:    fmt.Sprintf(":%s", cfg.ApiPort),
 		Handler: router.engine,
 	}
 
 	router.configureRoutes()
 
+	router.GetRouterGroupV1(cfg).GET("/test")
+
 	return router
 }
 
-func (api *API) GetRouterGroupV1() *gin.RouterGroup {
-	return api.engine.Group("/api/v1")
+func (api *API) GetRouterGroupV1(cfg *Config) *gin.RouterGroup {
+	return api.engine.Group("/api/v1", checkJWT(cfg))
 }
 
 func (api *API) configureRoutes() {
