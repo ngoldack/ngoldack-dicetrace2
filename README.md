@@ -2,6 +2,7 @@
 
 [![cicd](https://github.com/ngoldack/dicetrace/actions/workflows/cicd.yaml/badge.svg)](https://github.com/ngoldack/dicetrace/actions/workflows/cicd.yaml)
 [![codecov](https://codecov.io/github/ngoldack/dicetrace/branch/main/graph/badge.svg?token=4IljTKeRUs)](https://codecov.io/github/ngoldack/dicetrace)
+[![wakatime](https://wakatime.com/badge/github/ngoldack/dicetrace.svg)](https://wakatime.com/badge/github/ngoldack/dicetrace)
 
 Monorepo containing the sourcecode for [dicetrace.io](https://dicetrace.io).
 
