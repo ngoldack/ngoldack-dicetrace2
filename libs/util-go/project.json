@@ -1,8 +1,8 @@
 {
-  "name": "core",
+  "name": "util-go",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core",
+  "sourceRoot": "libs/util-go",
   "targets": {
     "test": {
       "executor": "@nx-go/nx-go:test"
