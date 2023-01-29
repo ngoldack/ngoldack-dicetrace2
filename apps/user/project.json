@@ -8,13 +8,13 @@
       "executor": "@nx-go/nx-go:build",
       "options": {
         "outputPath": "dist/apps/user",
-        "main": "apps/user/main.go"
+        "main": "apps/user/user.go"
       }
     },
     "serve": {
       "executor": "@nx-go/nx-go:serve",
       "options": {
-        "main": "apps/user/main.go"
+        "main": "apps/user/user.go"
       }
     },
     "test": {
