@@ -1,0 +1,20 @@
+{
+  "implicitDependencies": {
+    "go.mod": "*"
+  },
+  "plugins": ["@nxrs/cargo"],
+  "npmScope": "dicetrace",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  }
+}
