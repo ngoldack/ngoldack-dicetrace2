@@ -2,18 +2,29 @@
   "implicitDependencies": {
     "go.mod": "*"
   },
-  "plugins": ["@nxrs/cargo"],
+  "plugins": [
+    "@nxrs/cargo",
+    "@nxrocks/nx-flutter"
+  ],
   "npmScope": "dicetrace",
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "YmUzMGM1NjUtYTI4ZC00N2IxLTk3MjQtN2E5OGY5OTI3YzJmfHJlYWQtd3JpdGU="
       }
     }
   }
