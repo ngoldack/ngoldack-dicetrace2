@@ -1,10 +1,243 @@
 openapi: '3.0.3'
 info:
-  title: rest api for api.dicetrace.io
+  title: api.dicetrace.io
   version: '0.0.1'
+
+servers: 
+  - url: http://localhost:8080/api
+    description: local
+  - url: https://api.dev.dicetrace.io
+    description: dev
+  - url: https://api.dicetrace.io
+    description: prod
+
+security: 
+  - Auth0:
+      - TODO
+
+tags:
+  - name: devops
+    externalDocs:
+      url: https://docs.dicetrace.io/api#devops
+  - name: user
+    externalDocs:
+      url: https://docs.dicetrace.io/api#user
+
 paths:
-  /test:
+  /ping:
     get:
+      operationId: get-ping
+      summary: pings the endpoint and respons with a pong
+      tags:
+        - devops
       responses:
         '200':
-          description: OS
+          description: OK
+          content:
+            text/plain:
+              example: "pong"      
+
+  /health:
+    get:
+      operationId: get-health
+      summary: healthcheck endpoint
+      tags:
+        - devops
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Health"
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Problem"
+
+  ############
+  ### User ###
+  ############
+  /user:
+    post:
+      operationId: post-user
+      summary: creates a new user
+      tags:
+        - user
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  user:
+                    $ref: "#/components/schemas/User"
+        '400':
+          description: bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemInvalidParam"
+                  
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Problem"
+
+  /user/{user_id}:
+    get:
+      operationId: get-user-user_id
+      summary: get the requested user 
+      tags:
+        - user
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  user:
+                    $ref: "#/components/schemas/User"
+
+    put:
+      operationId: put-user-user_id
+      summary: updates the requested user
+      tags:
+        - user
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 200
+                  user:
+                    $ref: "#/components/schemas/User"
+    delete:
+      operationId: delete-user-user_id
+      summary: deletes the requested user
+      tags:
+        - user
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  user:
+                    $ref: "#/components/schemas/User"
+
+
+components: 
+  parameters:
+    user_id:
+      in: path
+      name: userId
+      description: uuid of the user
+      schema:
+        type: string
+        format: uuid
+      required: true
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        
+    ProblemInvalidParam:
+      allOf:
+        - $ref: "#/components/schemas/Problem"
+        - type: object
+          properties:
+            invalid_params:
+              type: array
+              items:
+                $ref: "#/components/schemas/InvalidParam"  
+
+    Problem:
+      description: generic problem+json response
+      type: object
+      properties:
+        status:
+          type: number
+          example: 
+        title:
+          type: string
+        detail:
+          type: string
+        type:
+          type: string
+        instance:
+          type: string
+
+    Health:
+      description: Healthcheck response
+      type: object
+      properties:
+        systems: 
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              status:
+                type: string
+                enum:
+                  - OPERATIONAL
+                  - INCIDENT
+                  - FAILURE
+
+    InvalidParam:
+      type: object
+      properties:
+        param:
+          type: string
+          example: id
+        reason:
+          type: string
+          example: invalid uuid
+
+  securitySchemes: 
+    Auth0:
+      description: Auth0 authentication
+      type: openIdConnect
+      openIdConnectUrl: https://dicetrace.eu.auth0.com/.well-known/openid-configuration
