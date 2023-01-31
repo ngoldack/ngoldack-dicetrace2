@@ -11,20 +11,20 @@
 		"test:e2e": "playwright test",
 		"test:unit": "vitest",
 		"test:unit:once": "vitest --coverage --run",
-		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"lint": "eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"update:dep": "pnpm update --latest"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.30.0",
 		"@sveltejs/adapter-auto": "^1.0.2",
-		"@sveltejs/kit": "^1.2.10",
+		"@sveltejs/kit": "^1.3.6",
 		"@typescript-eslint/eslint-plugin": "^5.49.0",
 		"@typescript-eslint/parser": "^5.49.0",
-		"@vitest/coverage-c8": "^0.28.2",
+		"@vitest/coverage-c8": "^0.28.3",
 		"autoprefixer": "^10.4.13",
 		"daisyui": "^2.49.0",
-		"eslint": "^8.32.0",
+		"eslint": "^8.33.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"postcss": "^8.4.21",
@@ -35,14 +35,40 @@
 		"svelte-check": "^3.0.3",
 		"svelte-preprocess": "^5.0.1",
 		"tailwindcss": "^3.2.4",
-		"tslib": "^2.4.1",
-		"typescript": "^4.9.4",
+		"tslib": "^2.5.0",
+		"typescript": "^4.9.5",
 		"vite": "^4.0.4",
-		"vitest": "^0.28.2"
+		"vitest": "^0.28.3"
 	},
 	"type": "module",
 	"dependencies": {
 		"@auth/core": "^0.3.0",
 		"@auth/sveltekit": "^0.2.0"
+	},
+	"nx": {
+		"namedInputs": {
+			"default": [
+				"{projectRoot}/**/*"
+			],
+			"production": [
+				"!{projectRoot}/.svelte-kit/*",
+				"!{projectRoot}/build/*",
+				"!{projectRoot}/tests/*"
+			]
+		},
+		"targets": {
+			"build": {
+				"inputs": [
+					"production",
+					"^production"
+				],
+				"outputs": [
+					"{projectRoot}/build"
+				],
+				"dependsOn": [
+					"^build"
+				]
+			}
+		}
 	}
 }

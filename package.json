@@ -5,16 +5,22 @@
   "scripts": {},
   "private": true,
   "devDependencies": {
-    "@asyncapi/generator": "^1.9.15",
     "@docusaurus/module-type-aliases": "2.1.0",
     "@gb-nx/svelte": "^3.4.0",
+    "@nrwl/eslint-plugin-nx": "15.6.3",
     "@nrwl/workspace": "15.6.3",
     "@nx-go/nx-go": "^2.7.0",
     "@nx-plus/docusaurus": "15.0.0-rc.0",
     "@nxrocks/nx-flutter": "^5.2.1",
     "@nxrs/cargo": "^0.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "eslint": "^8.28.0",
+    "eslint-plugin-gb": "^1.4.0",
+    "eslint-plugin-svelte": "^2.14.1",
     "nx": "15.6.3",
     "prettier": "^2.6.2",
+    "prettier-plugin-svelte": "^2.9.0",
     "typescript": "~4.8.2"
   },
   "dependencies": {
@@ -33,5 +39,8 @@
       "got@<11.8.5": ">=11.8.5",
       "ajv@<6.12.3": ">=6.12.3"
     }
-  }
+  },
+  "workspaces": [
+    "apps/web"
+  ]
 }
