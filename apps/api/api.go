@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/ngoldack/dicetrace/apps/api/internal"
-	"github.com/rs/zerolog/log"
-	"gopkg.in/errgo.v2/errors"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/ngoldack/dicetrace/apps/api/internal"
+	"github.com/rs/zerolog/log"
+	"gopkg.in/errgo.v2/errors"
 )
 
 func main() {

@@ -1,0 +1,9 @@
+{
+    "label": "OpenAPI",
+    "position": 2,
+    "link": {
+      "type": "generated-index",
+      "description": "Information about the OpenAPI used for dicetrace."
+    }
+  }
+  

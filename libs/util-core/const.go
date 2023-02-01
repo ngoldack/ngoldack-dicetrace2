@@ -1,4 +1,4 @@
-package utils_go
+package core
 
 const (
 	ApplicationJson = "application/json"

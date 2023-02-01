@@ -3,9 +3,12 @@ package internal
 import (
 	"context"
 	"fmt"
-	"github.com/dn365/gin-zerolog"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	core "github.com/ngoldack/dicetrace/libs/util-core"
+
+	ginzerolog "github.com/dn365/gin-zerolog"
+	"github.com/gin-gonic/gin"
 )
 
 type API struct {
@@ -14,7 +17,7 @@ type API struct {
 }
 
 // Force interface implementation
-var _ Controllable = &API{}
+var _ core.Controllable = &API{}
 
 func NewAPI(cfg *Config) *API {
 	router := &API{}

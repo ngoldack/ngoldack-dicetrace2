@@ -1,8 +1,9 @@
-package utils_go
+package core
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"schneider.vip/problem"
 )
 

@@ -1,0 +1,9 @@
+{
+    "label": "AsyncAPI",
+    "position": 2,
+    "link": {
+      "type": "generated-index",
+      "description": "Information about the AsyncAPI used for dicetrace."
+    }
+  }
+  

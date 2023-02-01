@@ -1,0 +1,73 @@
+asyncapi: '2.5.0'
+
+info:
+  title: user
+  version: '0.0.0'
+  description: |
+    Add your multiline description here.
+  contact:
+    name: dicetrace.io support
+    email: support@dicetrace.io
+    url: https://docs.dicetrace.io/asyncapi
+  license: 
+    name: MIT
+
+tags:
+  - name: user
+  - name: new
+
+servers:
+  dev:
+    url: https://kafka.dev.dicetrace.io
+    protocol: kafka
+    description: Production Kafka Broker
+  prod:
+    url: https://kafka.dicetrace.io
+    protocol: kafka
+    description: Production Kafka Broker
+
+defaultContentType: application/json
+
+channels:
+  dev:
+    description: test
+
+  user.new:
+    description: create a new user
+    subscribe:
+      description: listen
+      operationId: user.new
+      message:
+        $ref: "#/components/messages/userNew"
+
+components:
+  messages:
+    userNew:
+      messageId: user.new
+      name: UserNew
+      title: UserNew
+      summary: Action to create a new user
+      contentType: application/json
+      tags:
+        - name: user
+        - name: new
+      payload:
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/User"
+          
+
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+
+        
