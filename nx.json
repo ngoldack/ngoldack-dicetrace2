@@ -12,6 +12,12 @@
       "dependsOn": [
         "^build"
       ]
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^default"
+      ]
     }
   },
   "tasksRunnerOptions": {
